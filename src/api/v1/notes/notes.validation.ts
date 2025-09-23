@@ -1,8 +1,11 @@
 import { z } from "zod";
 
-export const noteValidation = z.object({
-    latitude: z.number(),
-    longitude: z.number(),
-    message: z.string(),
+export const noteSchema = z.object({
+    latitude: z.number()
+        .min(-90, "Latitude must be between -90 and 90 degrees")
+        .max(90, "Latitude must be between -90 and 90 degrees"),
+    longitude: z.number()
+        .min(-180, "Longitude must be between -180 and 180 degrees")
+        .max(180, "Longitude must be between -180 and 180 degrees"),
+    message: z.string().max(280, "Message must be 280 characters or less"),
 })
-
