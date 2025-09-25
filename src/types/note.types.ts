@@ -4,4 +4,9 @@ export interface Note {
     message:string,
 }
 
+export interface NotesWithin {
+    latitude:number,
+    longitude:number,
+    radius:number,
+}
 
