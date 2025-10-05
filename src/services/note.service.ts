@@ -58,11 +58,21 @@ export const noteService = {
         ROUND(ST_DistanceSphere(geom, ST_SetSRID(ST_Point(${longitude},${latitude}), 4326))::numeric, 0) as distance_meters
         FROM notes 
         WHERE ST_DistanceSphere(geom, ST_SetSRID(ST_Point(${longitude},${latitude}), 4326)) <= ${radius}
+        AND created_at >= NOW() - INTERVAL '24 hours'
         ORDER BY ST_DistanceSphere(geom, ST_SetSRID(ST_Point(${longitude},${latitude}), 4326));
         `
         
         const result = await pool.query(query)
 
+        return result.rows[0];
+    }
+    ,
+    async noteCleanup(){
+        const query = `
+        DELETE FROM notes
+        WHERE created_at < NOW() - INTERVAL '24 hours'
+        `
+        const result = await pool.query(query)
         return result.rows[0];
     }
 }
