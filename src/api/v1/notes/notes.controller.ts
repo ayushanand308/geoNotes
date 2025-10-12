@@ -1,5 +1,5 @@
 import { noteService } from "../../../services/note.service.ts";
-import { noteSchema, notesWithinSchema } from "./notes.validation.ts";
+import { noteSchema, notesWithinSchema, notesWithinTimePeriodSchema } from "./notes.validation.ts";
 import express, {type Request, type Response, } from 'express';
 
 export const notesController = {
@@ -27,6 +27,23 @@ export const notesController = {
             const result = await (noteService.getNotes(validatedData));
 
             res.status(201).json({
+                success: true,
+                data: result
+            });
+        }catch(error){
+            res.status(400).json({
+                success:false,
+                message: error instanceof Error ? error.message : 'An error occurred'
+            })
+        }
+     },
+     async getNotesWithinTimePeriod(req: Request,res: Response){
+        try{
+            const validatedData = notesWithinTimePeriodSchema.parse(req.body);
+
+            const result = await (noteService.getNotesWithinTimePeriod(validatedData));
+
+            res.status(200).json({
                 success: true,
                 data: result
             });

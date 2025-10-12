@@ -21,3 +21,19 @@ export const notesWithinSchema = z.object({
         .min(0, "Radius must be greater than 0")
         .max(1000, "Radius must be less than 1000")
 })
+
+export const notesWithinTimePeriodSchema = z.object({
+    latitude: z.number()
+        .min(-90, "Latitude must be between -90 and 90 degrees")
+        .max(90, "Latitude must be between -90 and 90 degrees"),
+    longitude: z.number()
+        .min(-180, "Longitude must be between -180 and 180 degrees")
+        .max(180, "Longitude must be between -180 and 180 degrees"),
+    radius: z.number()
+        .min(0, "Radius must be greater than 0")
+        .max(1000, "Radius must be less than 1000"),
+    startTime: z.string()
+        .datetime("Start time must be a valid ISO 8601 datetime"),
+    endTime: z.string()
+        .datetime("End time must be a valid ISO 8601 datetime")
+})
